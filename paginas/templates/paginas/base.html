@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maquinarias Agrícolas Nuevo Campo</title>
+    <meta name="description" content="Venta y arriendo de maquinaria agrícola mediana y grande en Pichidegua, Región de O'Higgins.">
+    <link rel="stylesheet" href="{% static 'paginas/estilos.css' %}">
+</head>
+<body>
+    <header>
+        <div class="marca">
+            <span class="logo" aria-hidden="true">🚜</span>
+            <div class="marca-texto">
+                <h1>Maquinarias Agrícolas Nuevo Campo</h1>
+                <p class="lema">Maquinaria para nuestro campo · Pichidegua, O'Higgins</p>
+            </div>
+        </div>
+        <nav>
+            <a href="{% url 'inicio' %}" {% if request.resolver_match.url_name == 'inicio' %}class="activo"{% endif %}>Inicio</a>
+            <a href="{% url 'nosotros' %}" {% if request.resolver_match.url_name == 'nosotros' %}class="activo"{% endif %}>Quiénes Somos</a>
+            <a href="{% url 'productos' %}" {% if request.resolver_match.url_name == 'productos' %}class="activo"{% endif %}>Productos</a>
+            <a href="{% url 'contacto' %}" {% if request.resolver_match.url_name == 'contacto' %}class="activo"{% endif %}>Contacto</a>
+            <a href="{% url 'ubicacion' %}" {% if request.resolver_match.url_name == 'ubicacion' %}class="activo"{% endif %}>Ubicación</a>
+            <a href="{% url 'horarios' %}" {% if request.resolver_match.url_name == 'horarios' %}class="activo"{% endif %}>Horarios</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block contenido %}{% endblock %}
+    </main>
+
+    <footer>
+        <p class="footer-titulo">Maquinarias Agrícolas Nuevo Campo</p>
+        <p>Camino a Pichidegua s/n, Pichidegua, Región de O'Higgins · +56 9 8765 4321 · ventas@nuevocampo.cl</p>
+        <p class="copy">© 2026 Maquinarias Agrícolas Nuevo Campo. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

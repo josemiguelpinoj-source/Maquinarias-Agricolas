@@ -1,0 +1,53 @@
+{% extends "paginas/base.html" %}
+
+{% block contenido %}
+<h2 class="pagina-titulo">Horarios</h2>
+<p class="intro">
+    Nuestro mostrador en Pichidegua atienden de lunes a sábado.
+    En temporada de siembra y cosecha ofrecemos atención extendida con cita previa.
+</p>
+
+<section class="tabla-caja">
+    <table class="tabla-horarios">
+        <thead>
+            <tr>
+                <th>Día</th>
+                <th>Horario</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in horarios %}
+            <tr>
+                <td>{{ item.dia }}</td>
+                <td>{{ item.horario }}</td>
+                <td><span class="estado {% if item.abierto %}estado-abierto{% else %}estado-cerrado{% endif %}">{{ item.estado }}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="grid-4">
+    <article class="tarjeta">
+        <span class="icono" aria-hidden="true">🌾</span>
+        <h4>Temporada agrícola</h4>
+        <p>De septiembre a diciembre atendemos los sábados completo y ofrecemos guardia para faenas.</p>
+    </article>
+    <article class="tarjeta">
+        <span class="icono" aria-hidden="true">🚜</span>
+        <h4>Atención en terreno</h4>
+        <p>Coordinamos visitas a tu propiedad fuera del horario de oficina, con cita previa.</p>
+    </article>
+    <article class="tarjeta">
+        <span class="icono" aria-hidden="true">🔧</span>
+        <h4>Taller</h4>
+        <p>Recepción de trabajos de lunes a viernes desde las 08:00. Urgencias en cosecha: llámanos.</p>
+    </article>
+    <article class="tarjeta">
+        <span class="icono" aria-hidden="true">📅</span>
+        <h4>Feriados</h4>
+        <p>Feriados nacionales cerrados. Consulta por atención especial en feriados de campaña.</p>
+    </article>
+</section>
+{% endblock %}

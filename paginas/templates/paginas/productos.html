@@ -1,0 +1,41 @@
+{% extends "paginas/base.html" %}
+{% load static %}
+
+{% block contenido %}
+<h2 class="pagina-titulo">Productos</h2>
+<p class="intro">
+    Maquinaria agrícola de <strong>de tamaño requerido</strong> para labranza, siembra,
+    cosecha, fumigación y transporte. Todos los equipos se entregan revisados y con garantía.
+</p>
+
+<section class="filtros">
+    <span class="badge badge-mediano">● Mediano</span>
+    <span class="badge badge-grande">● Grande</span>
+    <span class="nota-filtro">Consulta disponibilidad y precios: +56 9 8765 4321</span>
+</section>
+
+<section class="grid-productos">
+    {% for producto in productos %}
+    <article class="tarjeta producto">
+        <svg class="producto-imagen" viewBox="0 0 800 360" role="img" aria-label="Ilustración de {{ producto.nombre }}">
+            <use href="{% static 'paginas/productos.svg' %}#{{ producto.imagen }}"></use>
+        </svg>
+        <span class="badge {% if producto.categoria == 'Mediano' %}badge-mediano{% else %}badge-grande{% endif %}">
+            {{ producto.categoria }}
+        </span>
+        <h4>{{ producto.nombre }}</h4>
+        <p class="producto-cat">{{ producto.linea }}</p>
+        <p>{{ producto.descripcion }}</p>
+        <p class="precio">{{ producto.precio }}</p>
+    </article>
+    {% endfor %}
+</section>
+
+<section class="banda">
+    <div>
+        <h3>¿No encuentras la máquina que necesitas?</h3>
+        <p>Importamos y buscamos maquinaria a pedido según el trabajo y el tamaño de tu parcela.</p>
+    </div>
+    <a class="boton boton-claro" href="{% url 'contacto' %}">Contactar</a>
+</section>
+{% endblock %}

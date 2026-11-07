@@ -1,0 +1,67 @@
+{% extends "paginas/base.html" %}
+
+{% block contenido %}
+<h2 class="pagina-titulo">Contacto</h2>
+<p class="intro">Escríbenos o llámanos y te respondemos el mismo día hábil.</p>
+
+{% if mensaje %}
+<div class="aviso">{{ mensaje }}</div>
+{% endif %}
+
+<section class="contacto-grilla">
+    <div class="datos-contacto">
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">📞</span>
+            <div>
+                <h4>Teléfono</h4>
+                <p><a href="tel:+5672234567">+56 72 234 567</a></p>
+                <p><a href="tel:+56987654321">+56 9 8765 4321</a> (WhatsApp)</p>
+            </div>
+        </article>
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">✉️</span>
+            <div>
+                <h4>Correo</h4>
+                <p><a href="mailto:ventas@nuevocampo.cl">ventas@nuevocampo.cl</a></p>
+                <p><a href="mailto:taller@nuevocampo.cl">taller@nuevocampo.cl</a></p>
+            </div>
+        </article>
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">📍</span>
+            <div>
+                <h4>Dirección</h4>
+                <p>Camino a Pichidegua s/n<br>Pichidegua, Región de O'Higgins</p>
+                <a href="{% url 'ubicacion' %}">Ver en el mapa →</a>
+            </div>
+        </article>
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">🕗</span>
+            <div>
+                <h4>Horarios</h4>
+                <p>Lunes a viernes: 08:00 a 18:00<br>Sábado: 08:30 a 14:00</p>
+                <a href="{% url 'horarios' %}">Ver horarios →</a>
+            </div>
+        </article>
+    </div>
+
+    <div class="formulario-caja">
+        <h3>Envíanos una consulta</h3>
+        <form method="post">
+            {% csrf_token %}
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre">
+
+            <label for="correo">Correo</label>
+            <input type="email" id="correo" name="correo" required placeholder="tucorreo@ejemplo.cl">
+
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="+56 9 ...">
+
+            <label for="mensaje-texto">Mensaje</label>
+            <textarea id="mensaje-texto" name="mensaje" rows="5" required placeholder="Cuéntanos qué maquinaria buscas..."></textarea>
+
+            <button class="boton" type="submit">Enviar consulta</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

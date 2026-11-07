@@ -1,0 +1,66 @@
+{% extends "paginas/base.html" %}
+
+{% block contenido %}
+<h2 class="pagina-titulo">Ubicación</h2>
+<p class="intro">
+    Estamos en <strong>Pichidegua</strong>, Región de O'Higgins, a minutos de la Ruta 5 Sur,
+    atendiendo a productores de la zona central.
+</p>
+
+<section class="ubicacion-grilla">
+    <div class="datos-ubicacion">
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">📍</span>
+            <div>
+                <h4>Dirección</h4>
+                <p>{{ direccion }}</p>
+            </div>
+        </article>
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">🗺️</span>
+            <div>
+                <h4>Zona</h4>
+                <p>Comuna de Pichidegua, Provincia de Cachapoal<br>Región de O'Higgins, Chile</p>
+            </div>
+        </article>
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">🧭</span>
+            <div>
+                <h4>Cómo llegar</h4>
+                <ul class="lista-llegada">
+                    <li>Desde Ruta 5 Sur: salida Pichidegua, 5 km hacia el poniente.</li>
+                    <li>Desde Rancagua: 45 minutos por Ruta 5 y camino a Pichidegua.</li>
+                    <li>Desde San Fernando: 1 hora por la ruta norte.</li>
+                    <li>Referencia: a 3 km del centro de Pichidegua, junto a caminos rurales.</li>
+                </ul>
+            </div>
+        </article>
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">📍</span>
+            <div>
+                <h4>Coordenadas</h4>
+                <p>{{ latitud }}, {{ longitud }}</p>
+                <a href="{{ enlace_mapa }}" target="_blank" rel="noopener">Abrir en OpenStreetMap →</a>
+            </div>
+        </article>
+    </div>
+
+    <div class="mapa-caja">
+        <iframe
+            class="mapa"
+            src="{{ mapa_embed }}"
+            loading="lazy"
+            title="Mapa de Pichidegua, Región de O'Higgins">
+        </iframe>
+        <p class="mapa-pie">Pichidegua · Región de O'Higgins · Chile</p>
+    </div>
+</section>
+
+<section class="banda">
+    <div>
+        <h3>¿Vienes a ver una máquina?</h3>
+        <p>Avísanos antes de llegar y te esperamos en el mostrador o te recepcionamos directo en el taller.</p>
+    </div>
+    <a class="boton boton-claro" href="{% url 'contacto' %}">Coordinar visita</a>
+</section>
+{% endblock %}
