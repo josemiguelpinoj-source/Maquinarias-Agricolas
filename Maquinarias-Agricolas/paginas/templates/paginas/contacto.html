@@ -1,0 +1,73 @@
+{% extends "paginas/base.html" %}
+
+{% block contenido %}
+<h2 class="pagina-titulo">Contacto</h2>
+<p class="intro">Escríbenos o llámanos y te respondemos el mismo día hábil.</p>
+
+{% if mensaje %}
+<div class="aviso">{{ mensaje }}</div>
+{% endif %}
+
+<section class="row g-4 align-items-start">
+    <div class="col-lg-6 datos-contacto">
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">📞</span>
+            <div>
+                <h4>Teléfono</h4>
+                <p><a href="{{ empresa.telefono_fijo_href }}">{{ empresa.telefono_fijo }}</a></p>
+                <p><a href="{{ empresa.whatsapp_href }}">{{ empresa.whatsapp }}</a> (WhatsApp)</p>
+            </div>
+        </article>
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">✉️</span>
+            <div>
+                <h4>Correo</h4>
+                <p><a href="mailto:{{ empresa.correo_ventas }}">{{ empresa.correo_ventas }}</a></p>
+                <p><a href="mailto:{{ empresa.correo_taller }}">{{ empresa.correo_taller }}</a></p>
+            </div>
+        </article>
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">📍</span>
+            <div>
+                <h4>Dirección</h4>
+                <p>{{ empresa.direccion }}</p>
+                <a href="{% url 'ubicacion' %}">Ver en el mapa →</a>
+            </div>
+        </article>
+        <article class="dato-contacto">
+            <span class="icono" aria-hidden="true">🕗</span>
+            <div>
+                <h4>Horarios</h4>
+                <p>{{ empresa.horario_contacto|linebreaksbr }}</p>
+                <a href="{% url 'horarios' %}">Ver horarios →</a>
+            </div>
+        </article>
+    </div>
+
+    <div class="col-lg-6">
+    <div class="formulario-caja">
+        <h3>Envíanos una consulta</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label" for="nombre">Nombre</label>
+                <input class="form-control" type="text" id="nombre" name="nombre" required placeholder="Tu nombre">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="correo">Correo</label>
+                <input class="form-control" type="email" id="correo" name="correo" required placeholder="tucorreo@ejemplo.cl">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="telefono">Teléfono</label>
+                <input class="form-control" type="tel" id="telefono" name="telefono" placeholder="+56 9 ...">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="mensaje-texto">Mensaje</label>
+                <textarea class="form-control" id="mensaje-texto" name="mensaje" rows="5" required placeholder="Cuéntanos qué maquinaria buscas..."></textarea>
+            </div>
+            <button class="btn boton w-100" type="submit">Enviar consulta</button>
+        </form>
+    </div>
+    </div>
+</section>
+{% endblock %}

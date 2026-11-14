@@ -1,0 +1,140 @@
+{
+  "empresa": {
+    "nombre": "Maquinarias Agrícolas Nuevo Campo",
+    "nombre_corto": "Nuevo Campo",
+    "lema": "Maquinaria para nuestro campo · Pichidegua, O'Higgins",
+    "descripcion": "Venta y arriendo de maquinaria agrícola mediana y grande en Pichidegua, Región de O'Higgins.",
+    "direccion": "Camino a Pichidegua s/n, Pichidegua, Región de O'Higgins",
+    "comuna": "Pichidegua",
+    "provincia": "Cachapoal",
+    "region": "Región de O'Higgins",
+    "telefono_fijo": "+56 72 234 567",
+    "telefono_fijo_href": "tel:+5672234567",
+    "whatsapp": "+56 9 8765 4321",
+    "whatsapp_href": "tel:+56987654321",
+    "correo_ventas": "ventas@nuevocampo.cl",
+    "correo_taller": "taller@nuevocampo.cl",
+    "horario_contacto": "Lunes a viernes: 08:00 a 18:00\nSábado: 08:30 a 14:00",
+    "latitud": "-34.3536",
+    "longitud": "-71.3361",
+    "mapa_bbox": "-71.4100,-34.3950,-71.2850,-34.3150"
+  },
+  "productos": [
+    {
+      "nombre": "Tractor 4x4 mediano 90–120 HP",
+      "categoria": "Mediano",
+      "linea": "Tractores",
+      "descripcion": "Versátil para aradura, rastraje, siembra y transporte corto. Cabina climatizada y toma de fuerza.",
+      "precio": "Consultar precio",
+      "imagen": "tractor",
+      "destacado": true
+    },
+    {
+      "nombre": "Tractor 4x4 grande 130–220 HP",
+      "categoria": "Grande",
+      "linea": "Tractores",
+      "descripcion": "Alta potencia para labores intensivas, grandes implementos y trabajo en terrenos exigentes.",
+      "precio": "Consultar precio",
+      "imagen": "tractor",
+      "destacado": false
+    },
+    {
+      "nombre": "Cosechadora de granos 14–20 pies",
+      "categoria": "Grande",
+      "linea": "Cosecha",
+      "descripcion": "Para trigo, maíz y soya, con trilla de alto rendimiento y limpia de grano ajustable.",
+      "precio": "Consultar precio",
+      "imagen": "cosechadora",
+      "destacado": true
+    },
+    {
+      "nombre": "Cosechadora de papas",
+      "categoria": "Grande",
+      "linea": "Cosecha",
+      "descripcion": "Sistema de bandejas regulable, ideal para parcelas medianas y grandes de papa.",
+      "precio": "Consultar precio",
+      "imagen": "papas",
+      "destacado": false
+    },
+    {
+      "nombre": "Pulverizadora autopropelida 24–30 m",
+      "categoria": "Grande",
+      "linea": "Protección de cultivos",
+      "descripcion": "Brazo plegable, bomba de presión variable y depósito de gran capacidad para granjas de alto rendimiento.",
+      "precio": "Consultar precio",
+      "imagen": "pulverizadora",
+      "destacado": true
+    },
+    {
+      "nombre": "Arado de discos semihorizontal",
+      "categoria": "Grande",
+      "linea": "Labranza",
+      "descripcion": "Implemento de 7 a 13 discos para labranza primaria en suelos con residuos vegetales.",
+      "precio": "Consultar precio",
+      "imagen": "labranza",
+      "destacado": false
+    },
+    {
+      "nombre": "Rastra de discos",
+      "categoria": "Mediano",
+      "linea": "Labranza",
+      "descripcion": "Para preparación de cama de siembra y mezcla de residuos. Distintos anchos de trabajo.",
+      "precio": "Consultar precio",
+      "imagen": "labranza",
+      "destacado": false
+    },
+    {
+      "nombre": "Subsoleador / escarificador",
+      "categoria": "Grande",
+      "linea": "Labranza",
+      "descripcion": "Descompactación profunda sin voltear el suelo, ideal para suelos de riego de la zona.",
+      "precio": "Consultar precio",
+      "imagen": "labranza",
+      "destacado": false
+    },
+    {
+      "nombre": "Camión tolva agrícola",
+      "categoria": "Grande",
+      "linea": "Transporte",
+      "descripcion": "Transporte de granos y forraje entre la parcela y el silo, con descarga hidráulica.",
+      "precio": "Consultar precio",
+      "imagen": "transporte",
+      "destacado": false
+    },
+    {
+      "nombre": "Prensa enroladora de fardos",
+      "categoria": "Mediano",
+      "linea": "Forraje",
+      "descripcion": "Enrolado de alto rendimiento para pradera y forraje, con atado de alambre o red.",
+      "precio": "Consultar precio",
+      "imagen": "forraje",
+      "destacado": false
+    }
+  ],
+  "horarios": [
+    {
+      "dia": "Lunes a viernes",
+      "horario": "08:00 a 18:00",
+      "estado": "Abierto",
+      "abierto": true
+    },
+    {
+      "dia": "Sábado",
+      "horario": "08:30 a 14:00",
+      "estado": "Abierto",
+      "abierto": true
+    },
+    {
+      "dia": "Domingo",
+      "horario": "Cerrado",
+      "estado": "Cerrado",
+      "abierto": false
+    },
+    {
+      "dia": "Feriados nacionales",
+      "horario": "Cerrado",
+      "estado": "Cerrado",
+      "abierto": false
+    }
+  ]
+}
