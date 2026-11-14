@@ -1,0 +1,74 @@
+{% extends "paginas/base.html" %}
+
+{% block contenido %}
+<section class="hero">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-6 hero-texto">
+            <p class="cinta">{{ empresa.comuna }} · {{ empresa.region }}</p>
+            <h2>Maquinaria agrícola para tu campo</h2>
+            <p class="hero-parrafo">
+                En <strong>{{ empresa.nombre_corto }}</strong> trabajamos junto a agricultores de la zona central con
+                tractores, cosechadoras y equipos de labranza según tus necesidades.
+                Venta, arriendo y repuestos con equipo técnico en Pichidegua.
+            </p>
+            <div class="acciones">
+                <a class="btn boton" href="{% url 'productos' %}">Ver productos</a>
+                <a class="btn boton boton-claro" href="{% url 'contacto' %}">Solicitar cotización</a>
+            </div>
+        </div>
+        <div class="col-lg-6 hero-escena">
+            {% load static %}
+            <img src="{% static 'paginas/maquinaria-agricola.png' %}" alt="Maquinaria agrícola trabajando en un campo">
+        </div>
+    </div>
+</section>
+
+<h3 class="seccion-titulo">Lo que ofrecemos</h3>
+<section class="row g-4">
+    <div class="col-12 col-sm-6 col-xl-3"><article class="tarjeta card h-100">
+        <span class="icono" aria-hidden="true">🚜</span>
+        <h4>Venta de maquinaria</h4>
+        <p>Tractores, cosechadoras y equipos de labranza, revisados y con garantía.</p>
+    </article></div>
+    <div class="col-12 col-sm-6 col-xl-3"><article class="tarjeta card h-100">
+        <span class="icono" aria-hidden="true">📅</span>
+        <h4>Arriendo</h4>
+        <p>Arriendo por temporada o por faena, con operador disponible si lo necesitas.</p>
+    </article></div>
+    <div class="col-12 col-sm-6 col-xl-3"><article class="tarjeta card h-100">
+        <span class="icono" aria-hidden="true">🔧</span>
+        <h4>Taller y mantención</h4>
+        <p>Servicio técnico preventivo y correctivo para maquinaria mediana y grande.</p>
+    </article></div>
+    <div class="col-12 col-sm-6 col-xl-3"><article class="tarjeta card h-100">
+        <span class="icono" aria-hidden="true">📦</span>
+        <h4>Repuestos y financiamiento</h4>
+        <p>Repuestos originales y alternativos, más alternativas de financiamiento.</p>
+    </article></div>
+</section>
+
+<h3 class="seccion-titulo">Productos destacados</h3>
+<section class="row g-4">
+    {% for producto in productos_destacados %}
+    <div class="col-12 col-md-6 col-xl-4"><article class="tarjeta producto card h-100">
+        <span class="badge {% if producto.categoria == 'Mediano' %}badge-mediano{% else %}badge-grande{% endif %}">{{ producto.categoria }}</span>
+        <h4>{{ producto.nombre }}</h4>
+        <p>{{ producto.descripcion }}</p>
+        <p class="precio">{{ producto.precio }}</p>
+    </article></div>
+    {% endfor %}
+</section>
+<p class="ver-mas"><a class="btn boton" href="{% url 'productos' %}">Ver todos los productos</a></p>
+
+<section class="banda">
+    <div class="row align-items-center g-3">
+        <div class="col">
+            <h3>Estamos en Pichidegua</h3>
+            <p>Atendemos a agricultores de Pichidegua, Requínoa, Olivar, Graneros y toda la Región de O'Higgins.</p>
+        </div>
+        <div class="col-md-auto">
+            <a class="btn boton boton-claro" href="{% url 'ubicacion' %}">Ver ubicación</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
