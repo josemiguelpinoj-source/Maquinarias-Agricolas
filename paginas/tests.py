@@ -1,7 +1,12 @@
 import json
+import re
 from pathlib import Path
+from smtplib import SMTPException
+from unittest.mock import patch
 
-from django.test import TestCase
+from django.conf import settings
+from django.core import mail
+from django.test import TestCase, override_settings
 
 
 class BootstrapLayoutTests(TestCase):
@@ -47,6 +52,28 @@ class JsonContentTests(TestCase):
         self.assertContains(catalog, "#tractor")
         self.assertContains(catalog, "#cosechadora")
 
+    def test_product_illustrations_match_svg_symbols(self):
+        response = self.client.get("/productos/")
+        references = re.findall(
+            r'<use href="/static/paginas/productos\.svg#([^"]+)">',
+            response.content.decode(),
+        )
+        svg_path = (
+            Path(__file__).resolve().parent
+            / "static"
+            / "paginas"
+            / "productos.svg"
+        )
+        symbol_ids = set(
+            re.findall(
+                r'<symbol id="([^"]+)"',
+                svg_path.read_text(encoding="utf-8"),
+            )
+        )
+
+        self.assertEqual(len(references), len(self.site_data["productos"]))
+        self.assertTrue(set(references).issubset(symbol_ids))
+
     def test_hours_location_and_company_contact_details_come_from_json(self):
         hours_page = self.client.get("/horarios/")
         contact_page = self.client.get("/contacto/")
@@ -59,3 +86,68 @@ class JsonContentTests(TestCase):
             location_page.context["direccion"],
             self.site_data["empresa"]["direccion"],
         )
+
+
+class ContactFormTests(TestCase):
+    @override_settings(
+        MAILERS={
+            "default": {
+                "BACKEND": "django.core.mail.backends.locmem.EmailBackend"
+            }
+        }
+    )
+    def test_valid_contact_form_sends_email_and_redirects(self):
+        response = self.client.post(
+            "/contacto/",
+            {
+                "nombre": "Ana Pérez",
+                "correo": "ana@example.cl",
+                "telefono": "+56912345678",
+                "mensaje": "Busco un tractor mediano.",
+            },
+        )
+
+        self.assertRedirects(response, "/contacto/")
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].to,
+            [settings.CONTACT_EMAIL or "ventas@nuevocampo.cl"],
+        )
+        self.assertEqual(mail.outbox[0].reply_to, ["ana@example.cl"])
+        self.assertIn("Busco un tractor mediano.", mail.outbox[0].body)
+
+    def test_invalid_contact_form_does_not_claim_success(self):
+        response = self.client.post("/contacto/", {"nombre": ""})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Este campo es obligatorio.")
+        self.assertNotContains(response, "Recibimos tu consulta")
+        self.assertEqual(len(mail.outbox), 0)
+
+    @override_settings(
+        MAILERS={
+            "default": {
+                "BACKEND": "django.core.mail.backends.locmem.EmailBackend"
+            }
+        }
+    )
+    @patch(
+        "paginas.views.EmailMessage.send",
+        side_effect=SMTPException("mail unavailable"),
+    )
+    def test_email_failure_is_reported_without_success(self, send_email):
+        with self.assertLogs("paginas.views", level="ERROR"):
+            response = self.client.post(
+                "/contacto/",
+                {
+                    "nombre": "Ana Pérez",
+                    "correo": "ana@example.cl",
+                    "telefono": "",
+                    "mensaje": "Busco un tractor mediano.",
+                },
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No pudimos enviar tu consulta.")
+        self.assertNotContains(response, "Recibimos tu consulta")
+        send_email.assert_called_once()

@@ -4,8 +4,12 @@
 <h2 class="pagina-titulo">Contacto</h2>
 <p class="intro">Escríbenos o llámanos y te respondemos el mismo día hábil.</p>
 
-{% if mensaje %}
-<div class="aviso">{{ mensaje }}</div>
+{% if messages %}
+    {% for message in messages %}
+    <div class="aviso{% if message.tags == 'error' %} aviso-error{% endif %}" role="{% if message.tags == 'error' %}alert{% else %}status{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
 {% endif %}
 
 <section class="row g-4 align-items-start">
@@ -50,20 +54,24 @@
         <form method="post">
             {% csrf_token %}
             <div class="mb-3">
-                <label class="form-label" for="nombre">Nombre</label>
-                <input class="form-control" type="text" id="nombre" name="nombre" required placeholder="Tu nombre">
+                <label class="form-label" for="{{ form.nombre.id_for_label }}">{{ form.nombre.label }}</label>
+                {{ form.nombre }}
+                {% for error in form.nombre.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
             </div>
             <div class="mb-3">
-                <label class="form-label" for="correo">Correo</label>
-                <input class="form-control" type="email" id="correo" name="correo" required placeholder="tucorreo@ejemplo.cl">
+                <label class="form-label" for="{{ form.correo.id_for_label }}">{{ form.correo.label }}</label>
+                {{ form.correo }}
+                {% for error in form.correo.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
             </div>
             <div class="mb-3">
-                <label class="form-label" for="telefono">Teléfono</label>
-                <input class="form-control" type="tel" id="telefono" name="telefono" placeholder="+56 9 ...">
+                <label class="form-label" for="{{ form.telefono.id_for_label }}">{{ form.telefono.label }}</label>
+                {{ form.telefono }}
+                {% for error in form.telefono.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
             </div>
             <div class="mb-3">
-                <label class="form-label" for="mensaje-texto">Mensaje</label>
-                <textarea class="form-control" id="mensaje-texto" name="mensaje" rows="5" required placeholder="Cuéntanos qué maquinaria buscas..."></textarea>
+                <label class="form-label" for="{{ form.mensaje.id_for_label }}">{{ form.mensaje.label }}</label>
+                {{ form.mensaje }}
+                {% for error in form.mensaje.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
             </div>
             <button class="btn boton w-100" type="submit">Enviar consulta</button>
         </form>

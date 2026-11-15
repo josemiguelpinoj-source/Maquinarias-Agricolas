@@ -477,6 +477,12 @@ h2.pagina-titulo {
     font-weight: 600;
 }
 
+.aviso-error {
+    background: #f7e2df;
+    border-left-color: #a13b2f;
+    color: #842d24;
+}
+
 .datos-contacto,
 .datos-ubicacion {
     display: grid;

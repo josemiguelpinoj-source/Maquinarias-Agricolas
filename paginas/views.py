@@ -1,10 +1,18 @@
 import json
+import logging
 from pathlib import Path
+from smtplib import SMTPException
 
-from django.shortcuts import render
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.shortcuts import redirect, render
+
+from .forms import ConsultaContactoForm
 
 
 DATA_FILE = Path(__file__).resolve().parent / "data" / "contenido.json"
+logger = logging.getLogger(__name__)
 
 
 def _load_site_data():
@@ -61,10 +69,47 @@ def horarios(request):
 
 
 def contacto(request):
-    mensaje = None
-    if request.method == "POST":
-        mensaje = "¡Gracias por escribirnos! Recibimos tu consulta y te responderemos a la brevedad."
-    return _render_page(request, "paginas/contacto.html", {"mensaje": mensaje})
+    site_data = _load_site_data()
+    form = ConsultaContactoForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        datos = form.cleaned_data
+        empresa = site_data["empresa"]
+        recipient = settings.CONTACT_EMAIL or empresa["correo_ventas"]
+        email = EmailMessage(
+            subject="Nueva consulta desde el sitio web de Nuevo Campo",
+            body=(
+                f"Nombre: {datos['nombre']}\n"
+                f"Correo: {datos['correo']}\n"
+                f"Teléfono: {datos['telefono'] or 'No indicado'}\n\n"
+                f"Consulta:\n{datos['mensaje']}"
+            ),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[recipient],
+            reply_to=[datos["correo"]],
+        )
+        try:
+            sent = email.send(fail_silently=False)
+        except (OSError, SMTPException):
+            logger.exception("No se pudo enviar una consulta de contacto")
+            messages.error(
+                request,
+                f"No pudimos enviar tu consulta. Inténtalo más tarde o llámanos al {empresa['whatsapp']}.",
+            )
+        else:
+            if sent != 1:
+                logger.error("El backend de correo no envió la consulta de contacto")
+                messages.error(
+                    request,
+                    f"No pudimos enviar tu consulta. Inténtalo más tarde o llámanos al {empresa['whatsapp']}.",
+                )
+            else:
+                messages.success(
+                    request,
+                    "¡Gracias por escribirnos! Recibimos tu consulta y te responderemos a la brevedad.",
+                )
+                return redirect("contacto")
+
+    return _render_page(request, "paginas/contacto.html", {"form": form}, site_data)
 
 
 def ubicacion(request):

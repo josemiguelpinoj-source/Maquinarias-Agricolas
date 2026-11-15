@@ -13,23 +13,46 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 import os
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+def environment_flag(name, default):
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    if value.lower() in {"1", "true", "yes", "on"}:
+        return True
+    if value.lower() in {"0", "false", "no", "off"}:
+        return False
+    raise ImproperlyConfigured(f"{name} must be a boolean value.")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-development-only-change-me",
-)
+DEBUG = environment_flag("DJANGO_DEBUG", True)
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = "django-insecure-development-only-change-me"
+    else:
+        raise ImproperlyConfigured("DJANGO_SECRET_KEY must be set when DJANGO_DEBUG is false.")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get(
+        "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1" if DEBUG else ""
+    ).split(",")
+    if host.strip()
+]
+if not DEBUG and not ALLOWED_HOSTS:
+    raise ImproperlyConfigured(
+        "DJANGO_ALLOWED_HOSTS must list the public hostnames when DJANGO_DEBUG is false."
+    )
 
 
 # Application definition
@@ -122,11 +145,51 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
-# Email
-# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
+# Email. The console backend keeps local development self-contained.
+CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL")
+DEFAULT_FROM_EMAIL = os.environ.get(
+    "DEFAULT_FROM_EMAIL", CONTACT_EMAIL or "webmaster@localhost"
+)
+email_backend = os.environ.get(
+    "DJANGO_EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
+)
+default_mailer = {"BACKEND": email_backend}
+if email_backend == "django.core.mail.backends.smtp.EmailBackend":
+    email_host = os.environ.get("EMAIL_HOST")
+    if not email_host:
+        raise ImproperlyConfigured(
+            "EMAIL_HOST must be set when using the SMTP email backend."
+        )
+    try:
+        email_port = int(os.environ.get("EMAIL_PORT", "587"))
+        email_timeout = int(os.environ.get("EMAIL_TIMEOUT", "10"))
+    except ValueError as error:
+        raise ImproperlyConfigured(
+            "EMAIL_PORT and EMAIL_TIMEOUT must be integers."
+        ) from error
+    email_use_tls = environment_flag("EMAIL_USE_TLS", True)
+    email_use_ssl = environment_flag("EMAIL_USE_SSL", False)
+    if email_use_tls and email_use_ssl:
+        raise ImproperlyConfigured("EMAIL_USE_TLS and EMAIL_USE_SSL cannot both be true.")
+    default_mailer.update(
+        {
+            "HOST": email_host,
+            "PORT": email_port,
+            "USERNAME": os.environ.get("EMAIL_HOST_USER", ""),
+            "PASSWORD": os.environ.get("EMAIL_HOST_PASSWORD", ""),
+            "USE_TLS": email_use_tls,
+            "USE_SSL": email_use_ssl,
+            "TIMEOUT": email_timeout,
+        }
+    )
+elif email_backend != "django.core.mail.backends.console.EmailBackend":
+    raise ImproperlyConfigured(
+        "DJANGO_EMAIL_BACKEND must be the Django console or SMTP email backend."
+    )
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+MAILERS = {"default": default_mailer}
+
+SECURE_SSL_REDIRECT = environment_flag("DJANGO_SECURE_SSL_REDIRECT", False)
+SECURE_HSTS_SECONDS = int(os.environ.get("DJANGO_SECURE_HSTS_SECONDS", "0"))
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
