@@ -42,12 +42,11 @@ body {
 
 /* ---------- Encabezado ---------- */
 
-header {
+.site-header {
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent 45%),
         linear-gradient(90deg, #16300c 0%, var(--verde-oscuro) 55%, var(--verde-banda) 100%);
     color: #fff;
-    padding: 18px 28px 0;
     border-bottom: 4px solid var(--trigo);
     box-shadow: 0 4px 16px rgba(31, 61, 18, 0.4);
 }
@@ -56,6 +55,17 @@ header {
     display: flex;
     align-items: center;
     gap: 16px;
+}
+
+.site-header .navbar-brand {
+    flex: 1 1 0;
+    min-width: 0;
+    margin-right: 12px;
+    white-space: normal;
+}
+
+.marca-texto {
+    min-width: 0;
 }
 
 .logo {
@@ -67,7 +77,8 @@ header {
     padding: 10px 12px;
 }
 
-.marca-texto h1 {
+.marca-titulo {
+    display: block;
     margin: 0;
     font-size: 1.6rem;
     letter-spacing: 0.5px;
@@ -75,47 +86,56 @@ header {
 }
 
 .lema {
+    display: block;
     margin: 4px 0 0;
     font-size: 0.9rem;
     color: #cde3b6;
 }
 
-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 14px;
-}
-
-nav a {
+.site-header .navbar-nav .nav-link {
     color: #e8f3dc;
     text-decoration: none;
     padding: 10px 16px;
     font-size: 0.95rem;
-    border-radius: 8px 8px 0 0;
     border-bottom: 3px solid transparent;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
-nav a:hover {
+.site-header .navbar-nav .nav-link:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
 }
 
-nav a.activo {
+.site-header .navbar-nav .nav-link.activo {
     background: rgba(255, 255, 255, 0.14);
     color: var(--trigo-claro);
     border-bottom-color: var(--trigo-claro);
 }
 
+.site-header .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+@media (min-width: 992px) {
+    .site-header .navbar-collapse {
+        flex-grow: 0;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .marca-titulo {
+        font-size: 1.2rem;
+    }
+
+    .lema {
+        font-size: 0.82rem;
+    }
+}
+
 /* ---------- Contenido general ---------- */
 
-main {
-    flex: 1;
-    width: 100%;
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 30px 20px 46px;
+.site-main {
+    padding-bottom: 46px !important;
 }
 
 h2.pagina-titulo {
@@ -200,10 +220,6 @@ h2.pagina-titulo {
 /* ---------- Hero (inicio) ---------- */
 
 .hero {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 24px;
-    align-items: center;
     background: var(--papel);
     border-radius: 18px;
     padding: 30px 32px;
@@ -251,18 +267,6 @@ h2.pagina-titulo {
 }
 
 /* ---------- Tarjetas y grillas ---------- */
-
-.grid-4 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 18px;
-}
-
-.grid-productos {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
-    gap: 18px;
-}
 
 .tarjeta {
     background: var(--papel);
@@ -362,11 +366,6 @@ h2.pagina-titulo {
     color: #eef7e2;
     border-radius: 16px;
     padding: 26px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
     border-left: 6px solid var(--trigo);
 }
 
@@ -420,15 +419,16 @@ h2.pagina-titulo {
 .tabla-caja {
     background: var(--papel);
     border-radius: 14px;
-    padding: 8px;
     box-shadow: var(--sombra);
     overflow-x: auto;
     margin-bottom: 28px;
 }
 
 .tabla-horarios {
-    width: 100%;
-    border-collapse: collapse;
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: #f4f0df;
+    --bs-table-hover-bg: #e9efd9;
+    --bs-table-border-color: #e7e1cd;
 }
 
 .tabla-horarios th,
@@ -444,14 +444,6 @@ h2.pagina-titulo {
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border-bottom: none;
-}
-
-.tabla-horarios tbody tr:nth-child(even) {
-    background: #f4f0df;
-}
-
-.tabla-horarios tbody tr:last-child td {
     border-bottom: none;
 }
 
@@ -483,14 +475,6 @@ h2.pagina-titulo {
     border-radius: 0 10px 10px 0;
     margin-bottom: 20px;
     font-weight: 600;
-}
-
-.contacto-grilla,
-.ubicacion-grilla {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: start;
 }
 
 .datos-contacto,
@@ -560,7 +544,7 @@ h2.pagina-titulo {
     font-size: 0.86rem;
     font-weight: 700;
     color: var(--verde-oscuro);
-    margin: 12px 0 5px;
+    margin: 0 0 5px;
 }
 
 .formulario-caja input,
@@ -599,10 +583,9 @@ h2.pagina-titulo {
 
 .mapa {
     width: 100%;
-    height: 420px;
+    height: 100%;
     border: none;
     border-radius: 10px;
-    display: block;
     background: #e7e1cd;
 }
 
@@ -615,7 +598,7 @@ h2.pagina-titulo {
 
 /* ---------- Pie ---------- */
 
-footer {
+.site-footer {
     background: linear-gradient(90deg, #16300c, var(--verde-oscuro) 70%, var(--verde-banda));
     color: #cde3b6;
     text-align: center;
@@ -631,7 +614,7 @@ footer {
     font-size: 1.02rem;
 }
 
-footer p {
+.site-footer p {
     margin: 4px 0;
 }
 
@@ -643,13 +626,7 @@ footer p {
 /* ---------- Responsive ---------- */
 
 @media (max-width: 860px) {
-    .hero,
-    .contacto-grilla,
-    .ubicacion-grilla {
-        grid-template-columns: 1fr;
-    }
-
-    .marca-texto h1 {
+    .marca-titulo {
         font-size: 1.25rem;
     }
 
@@ -657,33 +634,21 @@ footer p {
         font-size: 1.6rem;
     }
 
-    .banda {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .mapa {
-        height: 320px;
-    }
 }
 
 @media (max-width: 520px) {
-    header {
-        padding: 14px 16px 0;
-    }
-
     .logo {
         font-size: 30px;
         padding: 7px 9px;
     }
 
-    nav a {
+    .site-header .navbar-nav .nav-link {
         padding: 8px 11px;
         font-size: 0.88rem;
     }
 
-    main {
-        padding: 22px 14px 36px;
+    .site-main {
+        padding-bottom: 36px !important;
     }
 
     .hero {

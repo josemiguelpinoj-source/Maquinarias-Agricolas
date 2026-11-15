@@ -3,12 +3,12 @@
 {% block contenido %}
 <h2 class="pagina-titulo">Ubicación</h2>
 <p class="intro">
-    Estamos en <strong>Pichidegua</strong>, Región de O'Higgins, a minutos de la Ruta 5 Sur,
+    Estamos en <strong>{{ empresa.comuna }}</strong>, {{ empresa.region }}, a minutos de la Ruta 5 Sur,
     atendiendo a productores de la zona central.
 </p>
 
-<section class="ubicacion-grilla">
-    <div class="datos-ubicacion">
+<section class="row g-4 align-items-start">
+    <div class="col-lg-6 datos-ubicacion">
         <article class="dato-contacto">
             <span class="icono" aria-hidden="true">📍</span>
             <div>
@@ -20,7 +20,7 @@
             <span class="icono" aria-hidden="true">🗺️</span>
             <div>
                 <h4>Zona</h4>
-                <p>Comuna de Pichidegua, Provincia de Cachapoal<br>Región de O'Higgins, Chile</p>
+                <p>Comuna de {{ empresa.comuna }}, Provincia de {{ empresa.provincia }}<br>{{ empresa.region }}, Chile</p>
             </div>
         </article>
         <article class="dato-contacto">
@@ -45,22 +45,30 @@
         </article>
     </div>
 
-    <div class="mapa-caja">
-        <iframe
-            class="mapa"
-            src="{{ mapa_embed }}"
-            loading="lazy"
-            title="Mapa de Pichidegua, Región de O'Higgins">
-        </iframe>
-        <p class="mapa-pie">Pichidegua · Región de O'Higgins · Chile</p>
+    <div class="col-lg-6">
+        <div class="mapa-caja">
+            <div class="ratio ratio-4x3">
+                <iframe
+                    class="mapa"
+                    src="{{ mapa_embed }}"
+                    loading="lazy"
+                    title="Mapa de {{ empresa.comuna }}, {{ empresa.region }}">
+                </iframe>
+            </div>
+            <p class="mapa-pie">{{ empresa.comuna }} · {{ empresa.region }} · Chile</p>
+        </div>
     </div>
 </section>
 
 <section class="banda">
-    <div>
-        <h3>¿Vienes a ver una máquina?</h3>
-        <p>Avísanos antes de llegar y te esperamos en el mostrador o te recepcionamos directo en el taller.</p>
+    <div class="row align-items-center g-3">
+        <div class="col">
+            <h3>¿Vienes a ver una máquina?</h3>
+            <p>Avísanos antes de llegar y te esperamos en el mostrador o te recepcionamos directo en el taller.</p>
+        </div>
+        <div class="col-md-auto">
+            <a class="btn boton boton-claro" href="{% url 'contacto' %}">Coordinar visita</a>
+        </div>
     </div>
-    <a class="boton boton-claro" href="{% url 'contacto' %}">Coordinar visita</a>
 </section>
 {% endblock %}
