@@ -9,10 +9,32 @@ Los productos, horarios y datos de la empresa se administran en `paginas/data/co
 
 - Inicio
 - Quiénes Somos
-- Productos (tractores, cosechadoras, labranza, transporte)
+- Productos (tractores, cosechadoras, labranza, transporte y forraje)
 - Contacto
 - Ubicación (Pichidegua, O'Higgins, con mapa)
 - Horarios
+
+## Funciones del sitio
+
+- **Fotos reales de maquinaria.** Cada producto del JSON puede declarar un campo
+  `foto` con la ruta dentro de `static/`. Si no lo tiene, la tarjeta usa la
+  ilustración vectorial de `paginas/static/paginas/productos.svg`. Los créditos y
+  licencias de las fotografías están en [`CREDITS.md`](CREDITS.md).
+- **Cotización por producto.** El botón "Cotizar este producto" abre
+  `/contacto/?producto=<nombre>` y deja el mensaje del formulario precargado.
+- **Catálogo descargable.** `/datos.json` entrega todo el contenido
+  (empresa y productos) como archivo `nuevo-campo-datos.json`. Está enlazado desde
+  la página de Productos y desde el pie de página.
+- **Contacto directo.** El teléfono usa `tel:` y el WhatsApp usa
+  `https://wa.me/...`, así que funciona tanto en escritorio como en celular.
+
+### Cómo agregar o cambiar un producto
+
+1. Edita `paginas/data/contenido.json` y agrega el objeto dentro de `productos`.
+2. Copia la foto a `paginas/static/paginas/productos/` y escribe su ruta en
+   `"foto": "paginas/productos/mi-foto.jpg"`. Usa JPEG de 1200 x 800 px o similar.
+3. Agrega el crédito de la imagen en `CREDITS.md`.
+4. Ejecuta `python manage.py test` para confirmar que la foto existe y se renderiza.
 
 ## Cómo correrlo (Windows)
 

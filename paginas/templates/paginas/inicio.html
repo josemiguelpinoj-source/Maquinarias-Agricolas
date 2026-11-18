@@ -1,4 +1,5 @@
 {% extends "paginas/base.html" %}
+{% load static %}
 
 {% block contenido %}
 <section class="hero">
@@ -17,8 +18,7 @@
             </div>
         </div>
         <div class="col-lg-6 hero-escena">
-            {% load static %}
-            <img src="{% static 'paginas/maquinaria-agricola.png' %}" alt="Maquinaria agrícola trabajando en un campo">
+            <img src="{% static 'paginas/maquinaria-agricola.png' %}" alt="Maquinaria agrícola trabajando en un campo" fetchpriority="high">
         </div>
     </div>
 </section>
@@ -51,10 +51,19 @@
 <section class="row g-4">
     {% for producto in productos_destacados %}
     <div class="col-12 col-md-6 col-xl-4"><article class="tarjeta producto card h-100">
+        {% if producto.foto %}
+        <img class="producto-imagen" src="{% static producto.foto %}" alt="{{ producto.nombre }}" loading="lazy" width="800" height="360">
+        {% else %}
+        <svg class="producto-imagen" viewBox="0 0 800 360" role="img" aria-label="Ilustración de {{ producto.nombre }}">
+            <use href="{% static 'paginas/productos.svg' %}#{{ producto.imagen }}"></use>
+        </svg>
+        {% endif %}
         <span class="badge {% if producto.categoria == 'Mediano' %}badge-mediano{% else %}badge-grande{% endif %}">{{ producto.categoria }}</span>
         <h4>{{ producto.nombre }}</h4>
+        <p class="producto-cat">{{ producto.linea }}</p>
         <p>{{ producto.descripcion }}</p>
         <p class="precio">{{ producto.precio }}</p>
+        <a class="btn boton boton-sm" href="{% url 'contacto' %}?producto={{ producto.nombre|urlencode }}">Cotizar este producto</a>
     </article></div>
     {% endfor %}
 </section>

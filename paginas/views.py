@@ -6,6 +6,7 @@ from smtplib import SMTPException
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
 from .forms import ConsultaContactoForm
@@ -70,7 +71,11 @@ def horarios(request):
 
 def contacto(request):
     site_data = _load_site_data()
-    form = ConsultaContactoForm(request.POST or None)
+    producto_consulta = request.GET.get("producto", "").strip()[:160]
+    initial = {}
+    if producto_consulta:
+        initial["mensaje"] = f"Hola, quiero cotizar: {producto_consulta}."
+    form = ConsultaContactoForm(request.POST or None, initial=initial)
     if request.method == "POST" and form.is_valid():
         datos = form.cleaned_data
         empresa = site_data["empresa"]
@@ -109,7 +114,20 @@ def contacto(request):
                 )
                 return redirect("contacto")
 
-    return _render_page(request, "paginas/contacto.html", {"form": form}, site_data)
+    contexto = {"form": form}
+    if producto_consulta:
+        contexto["producto_consulta"] = producto_consulta
+    return _render_page(request, "paginas/contacto.html", contexto, site_data)
+
+
+def descargar_datos(request):
+    """Entrega el contenido del sitio como un archivo JSON descargable."""
+    response = JsonResponse(
+        _load_site_data(),
+        json_dumps_params={"ensure_ascii": False, "indent": 2},
+    )
+    response["Content-Disposition"] = 'attachment; filename="nuevo-campo-datos.json"'
+    return response
 
 
 def ubicacion(request):

@@ -12,6 +12,12 @@
     {% endfor %}
 {% endif %}
 
+{% if producto_consulta %}
+<div class="aviso aviso-consulta" role="status">
+    Consulta preparada para: <strong>{{ producto_consulta }}</strong>. Completa tus datos y envíala.
+</div>
+{% endif %}
+
 <section class="row g-4 align-items-start">
     <div class="col-lg-6 datos-contacto">
         <article class="dato-contacto">
@@ -19,7 +25,7 @@
             <div>
                 <h4>Teléfono</h4>
                 <p><a href="{{ empresa.telefono_fijo_href }}">{{ empresa.telefono_fijo }}</a></p>
-                <p><a href="{{ empresa.whatsapp_href }}">{{ empresa.whatsapp }}</a> (WhatsApp)</p>
+                <p><a href="{{ empresa.whatsapp_url }}" target="_blank" rel="noopener">{{ empresa.whatsapp }} · WhatsApp</a></p>
             </div>
         </article>
         <article class="dato-contacto">

@@ -12,6 +12,7 @@
     "telefono_fijo_href": "tel:+5672234567",
     "whatsapp": "+56 9 8765 4321",
     "whatsapp_href": "tel:+56987654321",
+    "whatsapp_url": "https://wa.me/56987654321",
     "correo_ventas": "ventas@nuevocampo.cl",
     "correo_taller": "taller@nuevocampo.cl",
     "horario_contacto": "Lunes a viernes: 08:00 a 18:00\nSábado: 08:30 a 14:00",
@@ -27,6 +28,7 @@
       "descripcion": "Versátil para aradura, rastraje, siembra y transporte corto. Cabina climatizada y toma de fuerza.",
       "precio": "Consultar precio",
       "imagen": "tractor",
+      "foto": "paginas/productos/tractor-mediano.jpg",
       "destacado": true
     },
     {
@@ -35,7 +37,8 @@
       "linea": "Tractores",
       "descripcion": "Alta potencia para labores intensivas, grandes implementos y trabajo en terrenos exigentes.",
       "precio": "Consultar precio",
-      "imagen": "tractor",
+      "imagen": "tractor-grande",
+      "foto": "paginas/productos/tractor-grande.jpg",
       "destacado": false
     },
     {
@@ -45,6 +48,7 @@
       "descripcion": "Para trigo, maíz y soya, con trilla de alto rendimiento y limpia de grano ajustable.",
       "precio": "Consultar precio",
       "imagen": "cosechadora",
+      "foto": "paginas/productos/cosechadora.jpg",
       "destacado": true
     },
     {
@@ -54,6 +58,7 @@
       "descripcion": "Sistema de bandejas regulable, ideal para parcelas medianas y grandes de papa.",
       "precio": "Consultar precio",
       "imagen": "papas",
+      "foto": "paginas/productos/cosechadora-papas.jpg",
       "destacado": false
     },
     {
@@ -63,6 +68,7 @@
       "descripcion": "Brazo plegable, bomba de presión variable y depósito de gran capacidad para granjas de alto rendimiento.",
       "precio": "Consultar precio",
       "imagen": "pulverizadora",
+      "foto": "paginas/productos/pulverizadora.jpg",
       "destacado": true
     },
     {
@@ -71,7 +77,8 @@
       "linea": "Labranza",
       "descripcion": "Implemento de 7 a 13 discos para labranza primaria en suelos con residuos vegetales.",
       "precio": "Consultar precio",
-      "imagen": "labranza",
+      "imagen": "arado",
+      "foto": "paginas/productos/arado.jpg",
       "destacado": false
     },
     {
@@ -80,7 +87,8 @@
       "linea": "Labranza",
       "descripcion": "Para preparación de cama de siembra y mezcla de residuos. Distintos anchos de trabajo.",
       "precio": "Consultar precio",
-      "imagen": "labranza",
+      "imagen": "rastra",
+      "foto": "paginas/productos/rastra.jpg",
       "destacado": false
     },
     {
@@ -89,7 +97,8 @@
       "linea": "Labranza",
       "descripcion": "Descompactación profunda sin voltear el suelo, ideal para suelos de riego de la zona.",
       "precio": "Consultar precio",
-      "imagen": "labranza",
+      "imagen": "subsoleador",
+      "foto": "paginas/productos/subsoleador.jpg",
       "destacado": false
     },
     {
@@ -99,6 +108,7 @@
       "descripcion": "Transporte de granos y forraje entre la parcela y el silo, con descarga hidráulica.",
       "precio": "Consultar precio",
       "imagen": "transporte",
+      "foto": "paginas/productos/transporte.jpg",
       "destacado": false
     },
     {
@@ -108,6 +118,7 @@
       "descripcion": "Enrolado de alto rendimiento para pradera y forraje, con atado de alambre o red.",
       "precio": "Consultar precio",
       "imagen": "forraje",
+      "foto": "paginas/productos/forraje.jpg",
       "destacado": false
     }
   ],

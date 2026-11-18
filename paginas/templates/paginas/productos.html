@@ -12,15 +12,20 @@
     <span class="badge badge-mediano">Mediano</span>
     <span class="badge badge-grande">Grande</span>
     <span class="nota-filtro">Consulta disponibilidad y precios: +56 9 8765 4321</span>
+    <a class="btn boton boton-claro ms-sm-auto" href="{% url 'descargar_datos' %}" download>Descargar catálogo JSON</a>
 </section>
 
 <section class="row g-4">
     {% for producto in productos %}
     <div class="col-12 col-md-6 col-xl-4">
         <article class="tarjeta producto card h-100">
-            <svg class="producto-imagen img-fluid" viewBox="0 0 800 360" role="img" aria-label="Ilustración de {{ producto.nombre }}">
+            {% if producto.foto %}
+            <img class="producto-imagen" src="{% static producto.foto %}" alt="{{ producto.nombre }}" loading="lazy" width="800" height="360">
+            {% else %}
+            <svg class="producto-imagen" viewBox="0 0 800 360" role="img" aria-label="Ilustración de {{ producto.nombre }}">
                 <use href="{% static 'paginas/productos.svg' %}#{{ producto.imagen }}"></use>
             </svg>
+            {% endif %}
             <span class="badge {% if producto.categoria == 'Mediano' %}badge-mediano{% else %}badge-grande{% endif %}">
                 {{ producto.categoria }}
             </span>
@@ -28,6 +33,7 @@
             <p class="producto-cat">{{ producto.linea }}</p>
             <p>{{ producto.descripcion }}</p>
             <p class="precio">{{ producto.precio }}</p>
+            <a class="btn boton boton-sm" href="{% url 'contacto' %}?producto={{ producto.nombre|urlencode }}">Cotizar este producto</a>
         </article>
     </div>
     {% endfor %}

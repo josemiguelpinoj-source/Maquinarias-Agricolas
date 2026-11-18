@@ -2,30 +2,69 @@
   <defs>
     <linearGradient id="campo" x2="0" y2="1"><stop stop-color="#dff0f7"/><stop offset="1" stop-color="#b6d681"/></linearGradient>
     <linearGradient id="oro" x2="0" y2="1"><stop stop-color="#f6d36a"/><stop offset="1" stop-color="#c88e2d"/></linearGradient>
+    <linearGradient id="tierra" x2="0" y2="1"><stop stop-color="#92683d"/><stop offset="1" stop-color="#674629"/></linearGradient>
+    <linearGradient id="verde" x2="0" y2="1"><stop stop-color="#4d8434"/><stop offset="1" stop-color="#2f5c22"/></linearGradient>
+    <linearGradient id="metal" x2="0" y2="1"><stop stop-color="#a9b7bd"/><stop offset="1" stop-color="#65757c"/></linearGradient>
   </defs>
+
   <symbol id="tractor" viewBox="0 0 800 360">
-    <rect width="800" height="360" rx="22" fill="url(#campo)"/><path d="M0 260h800v100H0z" fill="#79532f"/>
+    <rect width="800" height="360" rx="22" fill="url(#campo)"/><path d="M0 260h800v100H0z" fill="url(#tierra)"/>
     <path d="M160 285h500" stroke="#57391f" stroke-width="12"/><g fill="#28521b"><rect x="260" y="130" width="190" height="105" rx="12"/><rect x="430" y="185" width="170" height="55" rx="8"/><rect x="300" y="105" width="105" height="75" rx="10"/></g>
     <rect x="315" y="118" width="75" height="48" rx="5" fill="#b9dbe0"/><circle cx="330" cy="260" r="52" fill="#263d20"/><circle cx="330" cy="260" r="28" fill="#7b6a48"/><circle cx="555" cy="260" r="35" fill="#263d20"/><circle cx="555" cy="260" r="18" fill="#7b6a48"/>
+    <path d="M450 190h80" stroke="#d9a441" stroke-width="7" stroke-linecap="round"/>
   </symbol>
+
+  <symbol id="tractor-grande" viewBox="0 0 800 360">
+    <rect width="800" height="360" rx="22" fill="url(#campo)"/><path d="M0 255h800v105H0z" fill="url(#tierra)"/>
+    <path d="M90 292h620" stroke="#4c301b" stroke-width="14"/><g fill="url(#verde)"><rect x="215" y="122" width="250" height="138" rx="16"/><rect x="430" y="178" width="225" height="82" rx="12"/><rect x="282" y="88" width="155" height="92" rx="14"/></g>
+    <rect x="302" y="103" width="115" height="62" rx="7" fill="#b7dce2"/><rect x="218" y="232" width="250" height="26" rx="9" fill="#244b1d"/>
+    <circle cx="312" cy="266" r="61" fill="#1d291a"/><circle cx="312" cy="266" r="32" fill="#7a6c4b"/><circle cx="604" cy="266" r="48" fill="#1d291a"/><circle cx="604" cy="266" r="25" fill="#7a6c4b"/>
+    <circle cx="590" cy="270" r="13" fill="#a5b1b5"/><path d="M445 190h95" stroke="#f0c45c" stroke-width="9" stroke-linecap="round"/>
+    <path d="M490 138h52v-18h-52z" fill="#f0c45c" opacity=".8"/>
+  </symbol>
+
   <symbol id="cosechadora" viewBox="0 0 800 360">
     <rect width="800" height="360" rx="22" fill="url(#campo)"/><path d="M0 250h800v110H0z" fill="#c69a48"/><path d="M120 275h560" stroke="#a57632" stroke-width="12"/>
     <g fill="#d39a2e"><rect x="230" y="125" width="300" height="125" rx="12"/><rect x="470" y="160" width="160" height="90" rx="8"/><path d="M170 220h120l-35 65H125z"/></g><rect x="420" y="90" width="105" height="75" rx="8" fill="#35636b"/><circle cx="300" cy="275" r="42" fill="#333"/><circle cx="575" cy="275" r="42" fill="#333"/><path d="M620 160l100 60v50H610z" fill="#e0b449"/>
+    <path d="M185 232h90M185 244h90" stroke="#6f4d20" stroke-width="5" opacity=".7"/>
   </symbol>
+
   <symbol id="papas" viewBox="0 0 800 360">
-    <rect width="800" height="360" rx="22" fill="#cfe5ee"/><path d="M0 220h800v140H0z" fill="#8a6138"/><path d="M0 255h800" stroke="#634323" stroke-width="12"/>
+    <rect width="800" height="360" rx="22" fill="#cfe5ee"/><path d="M0 220h800v140H0z" fill="url(#tierra)"/><path d="M0 255h800" stroke="#634323" stroke-width="12"/>
     <g fill="#3f7b36"><rect x="250" y="110" width="210" height="120" rx="12"/><rect x="410" y="170" width="190" height="60" rx="8"/><rect x="285" y="88" width="100" height="75" rx="8"/></g><rect x="300" y="100" width="70" height="48" fill="#9bc5ce"/><circle cx="315" cy="260" r="45" fill="#343434"/><circle cx="540" cy="260" r="34" fill="#343434"/><path d="M600 200h130l-55 70H600z" fill="#c77431"/>
+    <g fill="#d9a441"><circle cx="185" cy="286" r="15"/><circle cx="235" cy="302" r="12"/><circle cx="145" cy="312" r="11"/></g>
   </symbol>
+
   <symbol id="pulverizadora" viewBox="0 0 800 360">
     <rect width="800" height="360" rx="22" fill="#d9edf1"/><path d="M0 245h800v115H0z" fill="#6d9d43"/><g fill="#2f6328"><rect x="280" y="145" width="180" height="90" rx="10"/><rect x="385" y="105" width="90" height="65" rx="7"/><rect x="445" y="180" width="150" height="45" rx="7"/></g><rect x="400" y="115" width="60" height="38" fill="#9cc8cf"/><circle cx="330" cy="260" r="36" fill="#333"/><circle cx="540" cy="260" r="30" fill="#333"/><path d="M285 155H80M470 155h250" stroke="#bc3240" stroke-width="10"/><path d="M100 155v55M700 155v55" stroke="#bc3240" stroke-width="7"/>
+    <g stroke="#b7e2f0" stroke-width="4" opacity=".8"><path d="M90 210l-8 24M120 210l-8 24M150 210l-8 24M660 210l-8 24M690 210l-8 24"/></g>
   </symbol>
-  <symbol id="labranza" viewBox="0 0 800 360">
-    <rect width="800" height="360" rx="22" fill="#dcecf0"/><path d="M0 220h800v140H0z" fill="#79522f"/><path d="M0 270h800" stroke="#4f341f" stroke-width="14"/><g fill="#3b712c"><rect x="250" y="125" width="190" height="95" rx="10"/><rect x="410" y="175" width="150" height="45" rx="7"/><rect x="285" y="98" width="90" height="65" rx="7"/></g><rect x="300" y="108" width="60" height="40" fill="#a8d1d2"/><circle cx="300" cy="255" r="38" fill="#333"/><circle cx="500" cy="255" r="28" fill="#333"/><path d="M550 205l120 45-30 30-120-45z" fill="#b45f2d"/>
+
+  <symbol id="arado" viewBox="0 0 800 360">
+    <rect width="800" height="360" rx="22" fill="url(#campo)"/><path d="M0 250h800v110H0z" fill="url(#tierra)"/><path d="M50 278h700" stroke="#4f341f" stroke-width="10"/>
+    <g fill="url(#verde)"><rect x="105" y="146" width="165" height="88" rx="10"/><rect x="155" y="120" width="88" height="58" rx="8"/><rect x="255" y="190" width="95" height="38" rx="7"/></g><rect x="167" y="132" width="55" height="34" fill="#a8d1d2"/><circle cx="155" cy="245" r="36" fill="#333"/><circle cx="315" cy="242" r="28" fill="#333"/>
+    <path d="M345 245h330" stroke="#4b4b4b" stroke-width="12"/><g fill="#c26a2e" stroke="#7c3d1a" stroke-width="5"><circle cx="405" cy="245" r="34"/><circle cx="485" cy="245" r="34"/><circle cx="565" cy="245" r="34"/><circle cx="645" cy="245" r="34"/></g>
   </symbol>
+
+  <symbol id="rastra" viewBox="0 0 800 360">
+    <rect width="800" height="360" rx="22" fill="url(#campo)"/><path d="M0 250h800v110H0z" fill="url(#tierra)"/><path d="M40 280h720" stroke="#4f341f" stroke-width="10"/>
+    <g fill="url(#verde)"><rect x="95" y="142" width="165" height="90" rx="10"/><rect x="145" y="116" width="88" height="58" rx="8"/></g><rect x="157" y="128" width="55" height="34" fill="#a8d1d2"/><circle cx="145" cy="242" r="36" fill="#333"/><circle cx="300" cy="240" r="28" fill="#333"/>
+    <path d="M330 235h380M335 268h370" stroke="#4b4b4b" stroke-width="9"/><g fill="#d9a441" stroke="#9e702c" stroke-width="4"><circle cx="380" cy="235" r="24"/><circle cx="455" cy="235" r="24"/><circle cx="530" cy="235" r="24"/><circle cx="605" cy="235" r="24"/><circle cx="415" cy="268" r="22"/><circle cx="490" cy="268" r="22"/><circle cx="565" cy="268" r="22"/><circle cx="640" cy="268" r="22"/></g>
+  </symbol>
+
+  <symbol id="subsoleador" viewBox="0 0 800 360">
+    <rect width="800" height="360" rx="22" fill="url(#campo)"/><path d="M0 250h800v110H0z" fill="url(#tierra)"/><path d="M30 285h740" stroke="#4f341f" stroke-width="10"/>
+    <g fill="url(#verde)"><rect x="95" y="146" width="165" height="86" rx="10"/><rect x="145" y="120" width="88" height="58" rx="8"/></g><rect x="157" y="132" width="55" height="34" fill="#a8d1d2"/><circle cx="145" cy="244" r="36" fill="#333"/><circle cx="300" cy="242" r="28" fill="#333"/>
+    <path d="M330 235h350" stroke="#4b4b4b" stroke-width="11"/><g stroke="#d9a441" stroke-width="12" stroke-linecap="round" fill="none"><path d="M390 230v62"/><path d="M480 230v62"/><path d="M570 230v62"/><path d="M660 230v62"/></g><path d="M380 292h290" stroke="#7a5a22" stroke-width="8"/>
+  </symbol>
+
   <symbol id="transporte" viewBox="0 0 800 360">
-    <rect width="800" height="360" rx="22" fill="#cde3ed"/><path d="M0 250h800v110H0z" fill="#8e6a43"/><rect x="220" y="145" width="280" height="105" rx="8" fill="#b74a32"/><path d="M500 155h135l70 95H500z" fill="#d8a43c"/><rect x="535" y="175" width="65" height="48" fill="#8eb8c2"/><circle cx="310" cy="270" r="39" fill="#333"/><circle cx="610" cy="270" r="39" fill="#333"/>
+    <rect width="800" height="360" rx="22" fill="#cde3ed"/><path d="M0 250h800v110H0z" fill="#8e6a43"/><rect x="220" y="145" width="280" height="105" rx="8" fill="#b74a32"/><path d="M500 155h135l70 95H500z" fill="url(#oro)"/><rect x="535" y="175" width="65" height="48" fill="#8eb8c2"/><circle cx="310" cy="270" r="39" fill="#333"/><circle cx="610" cy="270" r="39" fill="#333"/>
+    <path d="M245 175h210M245 195h210" stroke="#8f3325" stroke-width="4" opacity=".7"/>
   </symbol>
+
   <symbol id="forraje" viewBox="0 0 800 360">
-    <rect width="800" height="360" rx="22" fill="#d9edf0"/><path d="M0 230h800v130H0z" fill="#7fae4b"/><g fill="#d39d32"><rect x="275" y="140" width="180" height="90" rx="10"/><rect x="430" y="180" width="135" height="42" rx="7"/><rect x="305" y="112" width="85" height="60" rx="7"/></g><rect x="320" y="122" width="55" height="38" fill="#9bc5cc"/><circle cx="320" cy="260" r="35" fill="#333"/><circle cx="505" cy="255" r="28" fill="#333"/><circle cx="665" cy="245" r="52" fill="#d8a94b" stroke="#9e702c" stroke-width="10"/>
+    <rect width="800" height="360" rx="22" fill="#d9edf0"/><path d="M0 230h800v130H0z" fill="#7fae4b"/><g fill="url(#oro)"><rect x="275" y="140" width="180" height="90" rx="10"/><rect x="430" y="180" width="135" height="42" rx="7"/><rect x="305" y="112" width="85" height="60" rx="7"/></g><rect x="320" y="122" width="55" height="38" fill="#9bc5cc"/><circle cx="320" cy="260" r="35" fill="#333"/><circle cx="505" cy="255" r="28" fill="#333"/><circle cx="665" cy="245" r="52" fill="#d8a94b" stroke="#9e702c" stroke-width="10"/>
+    <path d="M615 245h100M665 195v100" stroke="#b98432" stroke-width="4" opacity=".7"/>
   </symbol>
 </svg>

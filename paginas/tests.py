@@ -1,5 +1,4 @@
 import json
-import re
 from pathlib import Path
 from smtplib import SMTPException
 from unittest.mock import patch
@@ -49,30 +48,20 @@ class JsonContentTests(TestCase):
 
         self.assertEqual(catalog.context["productos"], self.site_data["productos"])
         self.assertEqual(homepage.context["productos_destacados"], featured)
-        self.assertContains(catalog, "#tractor")
-        self.assertContains(catalog, "#cosechadora")
 
-    def test_product_illustrations_match_svg_symbols(self):
+    def test_product_photos_exist_and_render(self):
         response = self.client.get("/productos/")
-        references = re.findall(
-            r'<use href="/static/paginas/productos\.svg#([^"]+)">',
-            response.content.decode(),
-        )
-        svg_path = (
-            Path(__file__).resolve().parent
-            / "static"
-            / "paginas"
-            / "productos.svg"
-        )
-        symbol_ids = set(
-            re.findall(
-                r'<symbol id="([^"]+)"',
-                svg_path.read_text(encoding="utf-8"),
-            )
-        )
+        content = response.content.decode()
+        static_root = Path(settings.BASE_DIR) / "paginas" / "static"
 
-        self.assertEqual(len(references), len(self.site_data["productos"]))
-        self.assertTrue(set(references).issubset(symbol_ids))
+        for product in self.site_data["productos"]:
+            with self.subTest(product=product["nombre"]):
+                photo = product.get("foto")
+                if photo:
+                    self.assertIn(f'src="/static/{photo}"', content)
+                    self.assertTrue((static_root / photo).is_file())
+                else:
+                    self.assertIn(f'#{product["imagen"]}', content)
 
     def test_hours_location_and_company_contact_details_come_from_json(self):
         hours_page = self.client.get("/horarios/")
@@ -88,7 +77,34 @@ class JsonContentTests(TestCase):
         )
 
 
+class JsonDownloadTests(TestCase):
+    def test_catalog_can_be_downloaded_as_json(self):
+        response = self.client.get("/datos.json")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/json")
+        self.assertIn("attachment", response["Content-Disposition"])
+        self.assertIn("nuevo-campo-datos.json", response["Content-Disposition"])
+
+        data = json.loads(response.content)
+        self.assertEqual(data["empresa"]["nombre"], "Maquinarias Agrícolas Nuevo Campo")
+        self.assertEqual(len(data["productos"]), 10)
+
+
 class ContactFormTests(TestCase):
+    def test_product_query_prefills_the_contact_message(self):
+        response = self.client.get(
+            "/contacto/",
+            {"producto": "Tractor 4x4 mediano 90–120 HP"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Consulta preparada para:")
+        self.assertEqual(
+            response.context["form"].initial["mensaje"],
+            "Hola, quiero cotizar: Tractor 4x4 mediano 90–120 HP.",
+        )
+
     @override_settings(
         MAILERS={
             "default": {
