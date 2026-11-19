@@ -9,5 +9,4 @@ urlpatterns = [
     path("contacto/", views.contacto, name="contacto"),
     path("ubicacion/", views.ubicacion, name="ubicacion"),
     path("horarios/", views.horarios, name="horarios"),
-    path("datos.json", views.descargar_datos, name="descargar_datos"),
 ]

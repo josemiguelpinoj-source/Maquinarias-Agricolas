@@ -3,7 +3,7 @@
 Sitio de maquinaria agrícola de mediano y gran tamaño (Pichidegua, Región de O'Higgins).
 Construido sobre la base del proyecto de clase "Panadería La Espiga" (Django).
 La interfaz usa Bootstrap 5.3.3 desde jsDelivr y conserva estilos propios para la identidad visual del sitio.
-Los productos, horarios y datos de la empresa se administran en `paginas/data/contenido.json`.
+Los productos, horarios y datos de la empresa se administran en `datos.json`, en la raíz del repositorio.
 
 ## Secciones
 
@@ -22,15 +22,15 @@ Los productos, horarios y datos de la empresa se administran en `paginas/data/co
   licencias de las fotografías están en [`CREDITS.md`](CREDITS.md).
 - **Cotización por producto.** El botón "Cotizar este producto" abre
   `/contacto/?producto=<nombre>` y deja el mensaje del formulario precargado.
-- **Catálogo descargable.** `/datos.json` entrega todo el contenido
-  (empresa y productos) como archivo `nuevo-campo-datos.json`. Está enlazado desde
-  la página de Productos y desde el pie de página.
+- **Catálogo en JSON.** Todo el contenido (empresa, productos y horarios) vive en
+  [`datos.json`](datos.json), en la raíz del repositorio. Desde GitHub se puede ver
+  o descargar con el botón *Raw / Download*. El sitio no expone enlaces de descarga.
 - **Contacto directo.** El teléfono usa `tel:` y el WhatsApp usa
   `https://wa.me/...`, así que funciona tanto en escritorio como en celular.
 
 ### Cómo agregar o cambiar un producto
 
-1. Edita `paginas/data/contenido.json` y agrega el objeto dentro de `productos`.
+1. Edita `datos.json` (raíz del repositorio) y agrega el objeto dentro de `productos`.
 2. Copia la foto a `paginas/static/paginas/productos/` y escribe su ruta en
    `"foto": "paginas/productos/mi-foto.jpg"`. Usa JPEG de 1200 x 800 px o similar.
 3. Agrega el crédito de la imagen en `CREDITS.md`.
@@ -52,7 +52,7 @@ Después abrir http://127.0.0.1:8000/
     python manage.py test
 
 El formulario envía las consultas a `CONTACT_EMAIL` o, si no se define, a la
-dirección de ventas configurada en `paginas/data/contenido.json`. En desarrollo,
+dirección de ventas configurada en `datos.json`. En desarrollo,
 Django usa el backend de consola y muestra el correo en la terminal del servidor;
 no envía correo real.
 

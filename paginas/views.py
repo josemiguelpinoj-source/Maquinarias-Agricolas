@@ -6,13 +6,12 @@ from smtplib import SMTPException
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
-from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
 from .forms import ConsultaContactoForm
 
 
-DATA_FILE = Path(__file__).resolve().parent / "data" / "contenido.json"
+DATA_FILE = Path(settings.BASE_DIR) / "datos.json"
 logger = logging.getLogger(__name__)
 
 
@@ -118,16 +117,6 @@ def contacto(request):
     if producto_consulta:
         contexto["producto_consulta"] = producto_consulta
     return _render_page(request, "paginas/contacto.html", contexto, site_data)
-
-
-def descargar_datos(request):
-    """Entrega el contenido del sitio como un archivo JSON descargable."""
-    response = JsonResponse(
-        _load_site_data(),
-        json_dumps_params={"ensure_ascii": False, "indent": 2},
-    )
-    response["Content-Disposition"] = 'attachment; filename="nuevo-campo-datos.json"'
-    return response
 
 
 def ubicacion(request):

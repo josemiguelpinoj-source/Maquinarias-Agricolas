@@ -34,7 +34,7 @@ class BootstrapLayoutTests(TestCase):
 
 class JsonContentTests(TestCase):
     def setUp(self):
-        data_file = Path(__file__).resolve().parent / "data" / "contenido.json"
+        data_file = Path(settings.BASE_DIR) / "datos.json"
         with data_file.open(encoding="utf-8") as file:
             self.site_data = json.load(file)
 
@@ -77,18 +77,20 @@ class JsonContentTests(TestCase):
         )
 
 
-class JsonDownloadTests(TestCase):
-    def test_catalog_can_be_downloaded_as_json(self):
-        response = self.client.get("/datos.json")
+class PublicJsonFileTests(TestCase):
+    def test_catalog_is_published_as_a_repository_file(self):
+        data_file = Path(settings.BASE_DIR) / "datos.json"
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response["Content-Type"], "application/json")
-        self.assertIn("attachment", response["Content-Disposition"])
-        self.assertIn("nuevo-campo-datos.json", response["Content-Disposition"])
-
-        data = json.loads(response.content)
+        self.assertTrue(data_file.is_file())
+        data = json.loads(data_file.read_text(encoding="utf-8"))
         self.assertEqual(data["empresa"]["nombre"], "Maquinarias Agrícolas Nuevo Campo")
         self.assertEqual(len(data["productos"]), 10)
+
+    def test_site_does_not_expose_a_json_download(self):
+        self.assertEqual(self.client.get("/datos.json").status_code, 404)
+
+        home = self.client.get("/").content.decode()
+        self.assertNotIn("Descargar JSON", home)
 
 
 class ContactFormTests(TestCase):
