@@ -402,6 +402,7 @@ h2.pagina-titulo {
 }
 
 .producto .badge {
+    align-self: flex-start;
     margin-bottom: 4px;
 }
 
