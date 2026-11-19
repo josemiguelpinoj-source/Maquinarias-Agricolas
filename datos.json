@@ -126,26 +126,30 @@
     {
       "dia": "Lunes a viernes",
       "horario": "08:00 a 18:00",
-      "estado": "Abierto",
-      "abierto": true
+      "dias": ["lunes", "martes", "miércoles", "jueves", "viernes"],
+      "apertura": "08:00",
+      "cierre": "18:00"
     },
     {
       "dia": "Sábado",
       "horario": "08:30 a 14:00",
-      "estado": "Abierto",
-      "abierto": true
+      "dias": ["sábado"],
+      "apertura": "08:30",
+      "cierre": "14:00"
     },
     {
       "dia": "Domingo",
       "horario": "Cerrado",
-      "estado": "Cerrado",
-      "abierto": false
+      "dias": ["domingo"],
+      "apertura": null,
+      "cierre": null
     },
     {
       "dia": "Feriados nacionales",
       "horario": "Cerrado",
-      "estado": "Cerrado",
-      "abierto": false
+      "dias": [],
+      "apertura": null,
+      "cierre": null
     }
   ]
 }

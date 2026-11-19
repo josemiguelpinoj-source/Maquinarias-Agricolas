@@ -22,6 +22,10 @@ Los productos, horarios y datos de la empresa se administran en `datos.json`, en
   licencias de las fotografías están en [`CREDITS.md`](CREDITS.md).
 - **Cotización por producto.** El botón "Cotizar este producto" abre
   `/contacto/?producto=<nombre>` y deja el mensaje del formulario precargado.
+- **Horarios en vivo.** `/horarios/` calcula si el local está abierto con la hora
+  actual de Chile (`America/Santiago`), marca la fila del día de hoy y muestra
+  cuándo abre o cierra. El estado se actualiza cada 30 segundos sin recargar.
+  Los días y las horas se editan en `datos.json` (`horarios`).
 - **Catálogo en JSON.** Todo el contenido (empresa, productos y horarios) vive en
   [`datos.json`](datos.json), en la raíz del repositorio. Desde GitHub se puede ver
   o descargar con el botón *Raw / Download*. El sitio no expone enlaces de descarga.

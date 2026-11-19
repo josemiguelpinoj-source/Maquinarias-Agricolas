@@ -572,6 +572,80 @@ h2.pagina-titulo {
     margin-bottom: 28px;
 }
 
+/* ---------- Estado de atención en vivo ---------- */
+
+.estado-horario {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    background: var(--papel);
+    border-left: 6px solid var(--verde-campo);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--sombra);
+}
+
+.estado-horario-abierto {
+    background: #eef6e3;
+    border-left-color: var(--verde-campo);
+}
+
+.estado-horario-cerrado {
+    background: #fbebe8;
+    border-left-color: #a13b2f;
+}
+
+.punto-estado {
+    width: 12px;
+    height: 12px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+}
+
+.estado-horario-abierto .punto-estado {
+    background: var(--verde-campo);
+    box-shadow: 0 0 0 4px rgba(63, 107, 34, 0.15);
+}
+
+.estado-horario-cerrado .punto-estado {
+    background: #a13b2f;
+    box-shadow: 0 0 0 4px rgba(161, 59, 47, 0.14);
+}
+
+.estado-texto {
+    min-width: 190px;
+}
+
+.estado-titulo {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--verde-campo);
+}
+
+.estado-horario-cerrado .estado-titulo {
+    color: #8d2f25;
+}
+
+.estado-detalle {
+    margin: 2px 0 0;
+    font-size: 0.9rem;
+    color: var(--texto-suave);
+}
+
+.estado-reloj {
+    margin: 0 0 0 auto;
+    font-size: 0.88rem;
+    color: var(--texto-suave);
+    text-align: right;
+}
+
+.estado-zona {
+    white-space: nowrap;
+}
+
 .tabla-horarios {
     --bs-table-bg: transparent;
     --bs-table-striped-bg: #f4f0df;
@@ -611,6 +685,36 @@ h2.pagina-titulo {
 .estado-cerrado {
     background: #f7e2df;
     color: #a13b2f;
+}
+
+.tabla-horarios tbody tr.fila-hoy td {
+    background: #eef6e3;
+    border-bottom-color: #d8e8c4;
+}
+
+.tabla-horarios tbody tr.fila-hoy td:first-child {
+    border-left: 4px solid var(--verde-campo);
+    font-weight: 700;
+}
+
+.etiqueta-hoy {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--verde-campo);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+.nota-horario {
+    margin: -10px 0 28px;
+    font-size: 0.85rem;
+    color: var(--texto-suave);
 }
 
 /* ---------- Contacto ---------- */
@@ -869,6 +973,19 @@ h2.pagina-titulo {
 
     .site-main {
         padding-bottom: 36px !important;
+    }
+
+    .estado-horario {
+        padding: 14px 16px;
+    }
+
+    .estado-reloj {
+        margin-left: 26px;
+        text-align: left;
+    }
+
+    .etiqueta-hoy {
+        margin-left: 4px;
     }
 
     .hero {

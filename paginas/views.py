@@ -1,5 +1,6 @@
 import json
 import logging
+from datetime import time, timedelta
 from pathlib import Path
 from smtplib import SMTPException
 
@@ -7,17 +8,131 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect, render
+from django.utils import timezone
 
 from .forms import ConsultaContactoForm
 
 
 DATA_FILE = Path(settings.BASE_DIR) / "datos.json"
+DIAS_SEMANA = (
+    "lunes",
+    "martes",
+    "miércoles",
+    "jueves",
+    "viernes",
+    "sábado",
+    "domingo",
+)
+MESES = (
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+)
 logger = logging.getLogger(__name__)
 
 
 def _load_site_data():
     with DATA_FILE.open(encoding="utf-8") as data_file:
         return json.load(data_file)
+
+
+def _ahora_local():
+    return timezone.localtime()
+
+
+def _hora_del_dia(valor):
+    if not valor:
+        return None
+    horas, minutos = valor.split(":")
+    return time(int(horas), int(minutos))
+
+
+def _grupo_horario(horarios, fecha):
+    nombre_dia = DIAS_SEMANA[fecha.weekday()]
+    for grupo in horarios:
+        if nombre_dia in grupo.get("dias", []):
+            return grupo
+    return None
+
+
+def _proxima_apertura(horarios, ahora):
+    for salto in range(8):
+        fecha = ahora.date() + timedelta(days=salto)
+        grupo = _grupo_horario(horarios, fecha)
+        if grupo is None:
+            continue
+        apertura = _hora_del_dia(grupo.get("apertura"))
+        if apertura is None:
+            continue
+        if salto == 0 and ahora.time() >= apertura:
+            continue
+        return fecha, apertura, salto
+    return None, None, None
+
+
+def _estado_horarios(horarios, ahora):
+    grupo_hoy = _grupo_horario(horarios, ahora.date())
+    apertura_hoy = _hora_del_dia(grupo_hoy.get("apertura")) if grupo_hoy else None
+    cierre_hoy = _hora_del_dia(grupo_hoy.get("cierre")) if grupo_hoy else None
+    abierto_ahora = bool(
+        apertura_hoy
+        and cierre_hoy
+        and apertura_hoy <= ahora.time() < cierre_hoy
+    )
+
+    filas = []
+    for grupo in horarios:
+        es_hoy = grupo is grupo_hoy
+        if es_hoy:
+            abierto = abierto_ahora
+            estado = "Abierto ahora" if abierto else "Cerrado ahora"
+        else:
+            abierto = _hora_del_dia(grupo.get("apertura")) is not None
+            estado = "Abierto" if abierto else "Cerrado"
+        filas.append({
+            **grupo,
+            "es_hoy": es_hoy,
+            "abierto": abierto,
+            "estado": estado,
+        })
+
+    if abierto_ahora:
+        detalle = f"Cerramos a las {cierre_hoy:%H:%M}."
+    else:
+        _, apertura, salto = _proxima_apertura(horarios, ahora)
+        if apertura is None:
+            detalle = "Consulta nuestros horarios de atención."
+        elif salto == 0:
+            detalle = f"Abrimos hoy a las {apertura:%H:%M}."
+        elif salto == 1:
+            detalle = f"Abrimos mañana a las {apertura:%H:%M}."
+        else:
+            proximo_dia = ahora.date() + timedelta(days=salto)
+            detalle = (
+                f"Abrimos el {DIAS_SEMANA[proximo_dia.weekday()]} "
+                f"a las {apertura:%H:%M}."
+            )
+
+    estado_actual = {
+        "abierto": abierto_ahora,
+        "titulo": "Abierto ahora" if abierto_ahora else "Cerrado ahora",
+        "detalle": detalle,
+        "hora": ahora.strftime("%H:%M"),
+        "dia": (
+            f"{DIAS_SEMANA[ahora.weekday()]} {ahora.day} "
+            f"de {MESES[ahora.month - 1]}"
+        ),
+    }
+    return filas, estado_actual
 
 
 def _render_page(request, template_name, context=None, site_data=None):
@@ -60,10 +175,15 @@ def nosotros(request):
 
 def horarios(request):
     site_data = _load_site_data()
+    filas, estado_actual = _estado_horarios(site_data["horarios"], _ahora_local())
     return _render_page(
         request,
         "paginas/horarios.html",
-        {"horarios": site_data["horarios"]},
+        {
+            "horarios": filas,
+            "estado_horario": estado_actual,
+            "horarios_datos": site_data["horarios"],
+        },
         site_data,
     )
 

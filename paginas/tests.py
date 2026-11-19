@@ -1,7 +1,9 @@
 import json
+from datetime import datetime
 from pathlib import Path
 from smtplib import SMTPException
 from unittest.mock import patch
+from zoneinfo import ZoneInfo
 
 from django.conf import settings
 from django.core import mail
@@ -68,13 +70,96 @@ class JsonContentTests(TestCase):
         contact_page = self.client.get("/contacto/")
         location_page = self.client.get("/ubicacion/")
 
-        self.assertEqual(hours_page.context["horarios"], self.site_data["horarios"])
+        self.assertEqual(
+            [(item["dia"], item["horario"]) for item in hours_page.context["horarios"]],
+            [(item["dia"], item["horario"]) for item in self.site_data["horarios"]],
+        )
         self.assertContains(contact_page, self.site_data["empresa"]["correo_ventas"])
         self.assertContains(contact_page, self.site_data["empresa"]["telefono_fijo"])
         self.assertEqual(
             location_page.context["direccion"],
             self.site_data["empresa"]["direccion"],
         )
+
+
+class ScheduleStatusTests(TestCase):
+    def setUp(self):
+        data_file = Path(settings.BASE_DIR) / "datos.json"
+        with data_file.open(encoding="utf-8") as file:
+            self.site_data = json.load(file)
+
+    def test_real_schedule_is_stored_with_opening_and_closing_times(self):
+        lunes_a_viernes, sabado, domingo, feriados = self.site_data["horarios"]
+
+        self.assertEqual(lunes_a_viernes["apertura"], "08:00")
+        self.assertEqual(lunes_a_viernes["cierre"], "18:00")
+        self.assertEqual(
+            lunes_a_viernes["dias"],
+            ["lunes", "martes", "miércoles", "jueves", "viernes"],
+        )
+        self.assertEqual(sabado["apertura"], "08:30")
+        self.assertEqual(sabado["cierre"], "14:00")
+        self.assertEqual(sabado["dias"], ["sábado"])
+        self.assertIsNone(domingo["apertura"])
+        self.assertEqual(feriados["dias"], [])
+
+    @patch("paginas.views._ahora_local")
+    def test_weekday_noon_marks_today_as_open(self, ahora_local):
+        ahora_local.return_value = datetime(
+            2026, 11, 19, 12, 0, tzinfo=ZoneInfo("America/Santiago")
+        )
+        response = self.client.get("/horarios/")
+        estado = response.context["estado_horario"]
+        filas = response.context["horarios"]
+
+        self.assertTrue(estado["abierto"])
+        self.assertEqual(estado["titulo"], "Abierto ahora")
+        self.assertEqual(estado["detalle"], "Cerramos a las 18:00.")
+        self.assertEqual(estado["dia"], "jueves 19 de noviembre")
+        self.assertTrue(filas[0]["es_hoy"])
+        self.assertEqual(filas[0]["estado"], "Abierto ahora")
+        self.assertFalse(filas[1]["es_hoy"])
+        self.assertContains(response, "Abierto ahora")
+        self.assertContains(response, "etiqueta-hoy")
+
+    @patch("paginas.views._ahora_local")
+    def test_weekday_evening_shows_closed_and_next_opening(self, ahora_local):
+        ahora_local.return_value = datetime(
+            2026, 11, 19, 20, 22, tzinfo=ZoneInfo("America/Santiago")
+        )
+        response = self.client.get("/horarios/")
+        estado = response.context["estado_horario"]
+
+        self.assertFalse(estado["abierto"])
+        self.assertEqual(estado["titulo"], "Cerrado ahora")
+        self.assertEqual(estado["detalle"], "Abrimos mañana a las 08:00.")
+        self.assertEqual(response.context["horarios"][0]["estado"], "Cerrado ahora")
+
+    @patch("paginas.views._ahora_local")
+    def test_saturday_afternoon_and_sunday_point_to_monday(self, ahora_local):
+        ahora_local.return_value = datetime(
+            2026, 11, 21, 13, 0, tzinfo=ZoneInfo("America/Santiago")
+        )
+        sabado = self.client.get("/horarios/")
+
+        self.assertTrue(sabado.context["estado_horario"]["abierto"])
+        self.assertEqual(
+            sabado.context["estado_horario"]["detalle"],
+            "Cerramos a las 14:00.",
+        )
+        self.assertTrue(sabado.context["horarios"][1]["es_hoy"])
+
+        ahora_local.return_value = datetime(
+            2026, 11, 22, 12, 0, tzinfo=ZoneInfo("America/Santiago")
+        )
+        domingo = self.client.get("/horarios/")
+
+        self.assertFalse(domingo.context["estado_horario"]["abierto"])
+        self.assertEqual(
+            domingo.context["estado_horario"]["detalle"],
+            "Abrimos mañana a las 08:00.",
+        )
+        self.assertTrue(domingo.context["horarios"][2]["es_hoy"])
 
 
 class PublicJsonFileTests(TestCase):
