@@ -27,7 +27,7 @@
             <tr>
                 <th>Día</th>
                 <th>Horario</th>
-                <th>Estado</th>
+                <th>Estado ahora</th>
             </tr>
         </thead>
         <tbody>
@@ -164,7 +164,7 @@
         contenedor.classList.toggle("estado-horario-abierto", estado.abierto);
         contenedor.classList.toggle("estado-horario-cerrado", !estado.abierto);
         document.getElementById("estado-titulo").textContent =
-            estado.abierto ? "Abierto ahora" : "Cerrado ahora";
+            estado.abierto ? "Abierto" : "Cerrado";
         document.getElementById("estado-detalle").textContent = estado.detalle;
         document.getElementById("estado-dia").textContent = ahora.etiquetaDia;
         document.getElementById("estado-hora").textContent = ahora.etiquetaHora;
@@ -172,7 +172,7 @@
         filas.forEach((fila, indice) => {
             const grupo = horarios[indice];
             const esHoy = (grupo.dias || []).includes(nombresDias[ahora.dia]);
-            const abiertoFila = esHoy ? estado.abierto : Boolean(grupo.apertura);
+            const abiertoFila = esHoy && estado.abierto;
             const etiqueta = fila.querySelector(".estado");
             const marcaHoy = fila.querySelector(".etiqueta-hoy");
 
@@ -182,9 +182,7 @@
             } else {
                 fila.removeAttribute("aria-current");
             }
-            etiqueta.textContent = esHoy
-                ? (estado.abierto ? "Abierto ahora" : "Cerrado ahora")
-                : (abiertoFila ? "Abierto" : "Cerrado");
+            etiqueta.textContent = abiertoFila ? "Abierto" : "Cerrado";
             etiqueta.classList.toggle("estado-abierto", abiertoFila);
             etiqueta.classList.toggle("estado-cerrado", !abiertoFila);
             if (marcaHoy) {

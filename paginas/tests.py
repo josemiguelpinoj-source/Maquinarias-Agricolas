@@ -113,13 +113,14 @@ class ScheduleStatusTests(TestCase):
         filas = response.context["horarios"]
 
         self.assertTrue(estado["abierto"])
-        self.assertEqual(estado["titulo"], "Abierto ahora")
+        self.assertEqual(estado["titulo"], "Abierto")
         self.assertEqual(estado["detalle"], "Cerramos a las 18:00.")
         self.assertEqual(estado["dia"], "jueves 19 de noviembre")
         self.assertTrue(filas[0]["es_hoy"])
-        self.assertEqual(filas[0]["estado"], "Abierto ahora")
+        self.assertEqual(filas[0]["estado"], "Abierto")
         self.assertFalse(filas[1]["es_hoy"])
-        self.assertContains(response, "Abierto ahora")
+        self.assertEqual(filas[1]["estado"], "Cerrado")
+        self.assertContains(response, ">Abierto<")
         self.assertContains(response, "etiqueta-hoy")
 
     @patch("paginas.views._ahora_local")
@@ -131,9 +132,10 @@ class ScheduleStatusTests(TestCase):
         estado = response.context["estado_horario"]
 
         self.assertFalse(estado["abierto"])
-        self.assertEqual(estado["titulo"], "Cerrado ahora")
+        self.assertEqual(estado["titulo"], "Cerrado")
         self.assertEqual(estado["detalle"], "Abrimos mañana a las 08:00.")
-        self.assertEqual(response.context["horarios"][0]["estado"], "Cerrado ahora")
+        self.assertEqual(response.context["horarios"][0]["estado"], "Cerrado")
+        self.assertEqual(response.context["horarios"][1]["estado"], "Cerrado")
 
     @patch("paginas.views._ahora_local")
     def test_saturday_afternoon_and_sunday_point_to_monday(self, ahora_local):
@@ -148,6 +150,8 @@ class ScheduleStatusTests(TestCase):
             "Cerramos a las 14:00.",
         )
         self.assertTrue(sabado.context["horarios"][1]["es_hoy"])
+        self.assertEqual(sabado.context["horarios"][1]["estado"], "Abierto")
+        self.assertEqual(sabado.context["horarios"][0]["estado"], "Cerrado")
 
         ahora_local.return_value = datetime(
             2026, 11, 22, 12, 0, tzinfo=ZoneInfo("America/Santiago")
@@ -160,6 +164,7 @@ class ScheduleStatusTests(TestCase):
             "Abrimos mañana a las 08:00.",
         )
         self.assertTrue(domingo.context["horarios"][2]["es_hoy"])
+        self.assertEqual(domingo.context["horarios"][2]["estado"], "Cerrado")
 
 
 class PublicJsonFileTests(TestCase):

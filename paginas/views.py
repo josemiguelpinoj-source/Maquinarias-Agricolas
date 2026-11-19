@@ -94,10 +94,10 @@ def _estado_horarios(horarios, ahora):
         es_hoy = grupo is grupo_hoy
         if es_hoy:
             abierto = abierto_ahora
-            estado = "Abierto ahora" if abierto else "Cerrado ahora"
-        else:
-            abierto = _hora_del_dia(grupo.get("apertura")) is not None
             estado = "Abierto" if abierto else "Cerrado"
+        else:
+            abierto = False
+            estado = "Cerrado"
         filas.append({
             **grupo,
             "es_hoy": es_hoy,
@@ -124,7 +124,7 @@ def _estado_horarios(horarios, ahora):
 
     estado_actual = {
         "abierto": abierto_ahora,
-        "titulo": "Abierto ahora" if abierto_ahora else "Cerrado ahora",
+        "titulo": "Abierto" if abierto_ahora else "Cerrado",
         "detalle": detalle,
         "hora": ahora.strftime("%H:%M"),
         "dia": (
