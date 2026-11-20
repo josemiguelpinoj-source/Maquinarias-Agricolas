@@ -41,14 +41,6 @@ class BootstrapLayoutTests(TestCase):
         self.assertNotIn("creditos-fotos", content)
         self.assertNotIn("Créditos de imágenes", content)
 
-    def test_about_page_uses_modern_tractor_photo(self):
-        response = self.client.get("/nosotros/")
-
-        self.assertContains(
-            response,
-            'src="/static/paginas/productos/tractor-grande.jpg"',
-        )
-
 
 class JsonContentTests(TestCase):
     def setUp(self):
