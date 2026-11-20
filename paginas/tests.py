@@ -33,6 +33,14 @@ class BootstrapLayoutTests(TestCase):
         self.assertContains(response, 'class="form-control"')
         self.assertContains(response, 'class="btn boton w-100"')
 
+    def test_photo_credits_are_not_visible_on_the_site(self):
+        response = self.client.get("/nosotros/")
+        content = response.content.decode()
+
+        self.assertNotIn("Créditos de las fotografías", content)
+        self.assertNotIn("creditos-fotos", content)
+        self.assertNotIn("Créditos de imágenes", content)
+
 
 class JsonContentTests(TestCase):
     def setUp(self):
